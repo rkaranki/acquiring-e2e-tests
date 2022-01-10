@@ -1,0 +1,52 @@
+@startuml
+
+Actor "Testing System" as TST
+
+participant "Field Agent App" as FApp
+participant "Global Onboarding Platform" as GOP
+participant SaltID as SID
+participant "Acquiring Gateway\n(acquiring partner)" as AGW
+
+
+'''
+''' Field Agent merchant sign-up
+'''
+
+TST -> FApp: Fill in Company/store KYC details
+
+FApp -> GOP: Sign-up: Company/store KYC details
+
+
+'''
+''' KYC
+'''
+
+GOP -> AGW: Merchant sign-up\n(store_id, KYC)
+
+AGW --> GOP: Merchant signed
+
+GOP --> FApp: Merchant KYC done\n({store_id})
+FApp --> TST: KYC done\n({store_id})
+
+FApp -> TST: Welcome to Saltpay
+
+
+'''
+''' Validations
+'''
+
+SID --> TST: Activation E-mail
+
+TST -> GOP: Get user\n({user_id})
+GOP --> TST: user data
+
+TST -> GOP: Get store data\n({store_id})
+GOP --> TST: store data
+
+TST -> AGW: Get acquiring data\n({store_id})
+AGW --> TST: ready\n(acq_host: OK, pgw: OK, term: OK, settl: OK)
+
+TST -> AGW: Get MID\n({store_id})
+AGW --> TST: store MID
+
+@enduml

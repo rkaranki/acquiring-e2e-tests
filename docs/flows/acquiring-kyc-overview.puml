@@ -1,0 +1,62 @@
+@startuml
+
+Actor Merchant as Merchant
+Actor "Field Agent" as FA
+
+participant "Field Agent App" as FApp
+participant "Global Onboarding Platform" as GOP
+participant SaltID as SID
+participant "Acquiring Gateway\n(acquiring partner)" as AGW
+participant "Acquiring Host\n(e.g. SolanteQ)" as AH
+participant "Payments Gateway\n(e.g. Switch)" as PGW
+participant "Terminal Management\n(e.g. MPAS)" as Term
+participant "Settlements" as Sett
+
+
+'''
+''' Field Agent merchant sign-up
+'''
+
+FA -> FApp: Fill in Company/store KYC details
+
+FApp -> GOP: Sign-up: Company/store KYC details
+
+
+'''
+''' Merchant account creation
+'''
+
+GOP -> SID: Create account
+SID --> GOP: user_id
+SID --> Merchant: Activation E-mail
+
+
+'''
+''' KYC
+'''
+
+GOP -> AGW: Merchant sign-up\n(store_id, KYC)
+
+AGW -> AH: Register outlet\n(card acceptor KYC, {MID})
+AH --> AGW: success
+
+AGW -> PGW: Register business\n(business KYC)
+PGW --> AGW: {business_id}
+
+AGW -> Term: Register company\n(company KYC)
+Term --> AGW: {company_id}
+
+AGW -> Term: Register outlet\n(outlet KYC, {company_id})
+Term --> AGW: {outlet_id}
+
+AGW -> Sett: Register banking account (KYC, {MID})
+Sett --> AGW: success
+
+AGW --> GOP: Merchant signed
+
+GOP --> FApp: Merchant KYC done\n({store_id})
+FApp --> FA: KYC done
+
+FApp -> Merchant: Welcome to Saltpay
+
+@enduml
