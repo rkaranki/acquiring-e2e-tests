@@ -20,7 +20,7 @@ assignees: ''
 
 <__option__>
 
-:white_check_mark: <_for_>_
+:white_check_mark: <_for_>
 
 :x: <_against_>
 
