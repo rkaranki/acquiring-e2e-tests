@@ -30,4 +30,4 @@ assignees: ''
 
 ## Actions
 
-[] <_action description_>
+- [ ] <_action description_>
