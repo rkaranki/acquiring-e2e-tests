@@ -34,7 +34,7 @@ sequenceDiagram
 
   Note over BFF: Signup for acquiring services
 
-  BFF ->> GOP: POST /api/v1/sign_up <br/> (store_id: {store/id} <br/> partner_slug: 'acquiring' <br/> extra_fields: null)
+  BFF ->> GOP: POST /api/v1/sign_up <br/> (store_id: {store/id} <br/> partner_slug: 'acquiring-gateway-system' <br/> extra_fields: null)
   GOP -->> BFF: 200 OK <br/> ({store/id})
 
   Note over TS: ??? <br/> How will the {store/id} be known
@@ -46,7 +46,7 @@ sequenceDiagram
   %% Acquiring host
   %%
 
-  Note over BFF: Subscribe an acquiring provider
+  Note over BFF: Subscribe to an acquiring provider
 
   Note over BFF: ??? <br/> how do we get the _acquiring_service_id_ for next call
   BFF ->> GOP: POST /api/v1/subscriptions <br/> (billing_entity_id: '_doesn't matter_') <br/> items/extra_fields: {charge_type, amount_type, tariff_type, percent} <br/> items/service_id: '_acquiring_service_id_') <br/> price: {amount, currency, interval}, <br/> store_id: {store/id})
