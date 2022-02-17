@@ -3,7 +3,7 @@
 ```mermaid
 sequenceDiagram
   participant TS as Testing System
-  participant BFF as Onboarding <br/> BFF
+  participant BFF as (Testing System as) <br/> Onboarding BFF
   participant GOP as Global Onboarding <br/> Platform
   participant AGW as Acquiring Gateway
 
@@ -24,7 +24,6 @@ sequenceDiagram
   GOP -->> BFF: 201 Created <br/> ({store/id})
 
 
-  Note over TS: ??? <br/> How will the {store/id} be known
   TS ->> AGW: GET /api/v1/signups/{store/id}
   AGW -->> TS: 200 OK <br/> (status: SIGNUP_INITIATED, <br/> mid, tid: null, <br/> kyc: done, <br/> acquiring_host: not_set, <br/> payments_gateway: not_set, <br/> terminal_management: not_set, <br/> payouts: ready)
 
@@ -37,7 +36,6 @@ sequenceDiagram
   BFF ->> GOP: POST /api/v1/sign_up <br/> (store_id: {store/id} <br/> partner_slug: 'acquiring-gateway-system' <br/> extra_fields: null)
   GOP -->> BFF: 200 OK <br/> ({store/id})
 
-  Note over TS: ??? <br/> How will the {store/id} be known
   TS ->> AGW: GET /api/v1/signups/{store/id}
   AGW -->> TS: 200 OK <br/> (status: SIGNUP_INITIATED, <br/> mid, tid: null, <br/> kyc: done, <br/> acquiring_host: not_set, <br/> payments_gateway: not_set, <br/> terminal_management: not_set, <br/> payouts: ready)
 
@@ -52,7 +50,6 @@ sequenceDiagram
   BFF ->> GOP: POST /api/v1/subscriptions <br/> (billing_entity_id: '_doesn't matter_') <br/> items/extra_fields: {charge_type, amount_type, tariff_type, percent} <br/> items/service_id: '_acquiring_service_id_') <br/> price: {amount, currency, interval}, <br/> store_id: {store/id})
   GOP -->> BFF: 200 OK
 
-  Note over TS: ??? <br/> How will the {store/id} be known
   TS ->> AGW: GET /api/v1/signups/{store/id}
   AGW -->> TS: 200 OK <br/> (status: SIGNUP_INITIATED, <br/> mid, tid: null, <br/> kyc: done, <br/> acquiring_host: ready, <br/> payments_gateway: not_set, <br/> terminal_management: not_set, <br/> payouts: ready)
 
@@ -66,7 +63,6 @@ sequenceDiagram
   BFF ->> GOP: POST /api/v1/subscriptions <br/> (billing_entity_id: '_doesn't matter_') <br/> items/extra_fields: {serialNumber} <br/> items/service_id: '_terminal_service_id_') <br/> price: {amount, currency, interval}, <br/> store_id: {store/id})
   GOP -->> BFF: 200 OK
 
-  Note over TS: ??? <br/> How will the {store/id} be known
   TS ->> AGW: GET /api/v1/signups/{store/id}
   AGW -->> TS: 200 OK <br/> (status: SIGNUP_COMPLETED, <br/> mid, tid: null, <br/> kyc: done, <br/> acquiring_host: ready, <br/> payments_gateway: ready, <br/> terminal_management: ready, <br/> payouts: ready)
 
